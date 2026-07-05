@@ -1,52 +1,30 @@
-def mergesort(lista,clave="precio",acendente=True) -> list[dict]:
-    if len(lista[:]) <= 1:
-        return lista[:]
-    mitad = len(lista) // 2
-    izquierda = mergesort(lista[:mitad],clave,acendente)
-    derecha = mergesort(lista[mitad:],clave,acendente)
-    return combinar(izquierda,derecha,clave,acendente)
+# función para ordenar
+def quicksort_productos(lista,clave='precio', descendente=True) -> list[dict] :
+    ''' los valores de los parametros seran mutables segun la decision de una en trada a futuro'''
+    if len(lista) <= 1 :return lista
+    pivote = lista[0]
+    izquierda  = []
+    derecha = []
+    
+    for x in lista[1:]:
+      
+      p = pivote[clave]
+      valor = x[clave]
+      
+      if descendente:
+          if valor >= p:
+              izquierda.append(x)
+          else:
+              derecha.append(x)
+      else:
+          if valor <= p:
+              izquierda.append(x)
+          else:
+              derecha.append(x)
+    return quicksort_productos(izquierda,clave,descendente) + [pivote] + quicksort_productos(derecha,clave,descendente)
 
-def combinar(izq,der,clave,acendente):
-    resultado = []
-    i = 0 
-    j = 0
-    valor_izq = izq[i][clave]
-    valor_der = der[j][clave]
-    while i < len(izq) and j < len(der):
-        if acendente:
-            if valor_izq <= valor_der:
-                resultado.append(izq[i])
-                i += 1
-            else:
-                resultado.append(der[j])
-                j += 1
-        else:
-            if valor_izq >= valor_der:
-                resultado.append(izq[i])
-                i += 1
-            else:
-                resultado.append(der[j])
-                j += 1
-    resultado.extend(izq[i:])
-    resultado.extend(der[j:])
-    return resultado
-
-
+# función para buscar 
 def buscar(lista,clave="precio",orden=True) -> list[dict]:
-    '''
-    retorna una lista con dict convalor de la clave mas alto o mas bajo
-    (si enpata la clave, debuelve los mas altos)
-    '''
-    lista_ordenada = mergesort(lista,clave,True)
-    if orden:
-        resultado = [i for i in lista_ordenada if i[clave] == lista_ordenada[0] [clave] ]
-    else:
-        resultado = [i for i in lista_ordenada if i[clave] == lista_ordenada[-1][clave] ]
-    return resultado
-
-
-
-def buscar2(lista,clave="precio",orden=True) -> list[dict]:
     '''
     retorna una lista con dict convalor de la clave mas alto o mas bajo
     (si enpatan la clave, debuelve los mas altos)
